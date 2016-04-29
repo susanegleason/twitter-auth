@@ -4,10 +4,9 @@ Rails.application.routes.draw do
               name: 'Accept',
               value: 'application/vnd.twitter-photos-server.com; version=1' },
               defaults: { format: :json }) do
-    constraints AuthorizedConstraint.new do
+    resources :authentications, only: [:create]
+    #constraints AuthorizedConstraint.new do
       # add authenticated resources
-    end
+    #end
   end
-
-  # add unauthenticated resources
 end
