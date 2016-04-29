@@ -1,4 +1,4 @@
-# Twitter-photos
+# twitter-auth
 
 ## Getting Started
 
