@@ -20,6 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_model_serializers (0.8.3)
+      activemodel (>= 3.0)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -41,13 +43,10 @@ GEM
     autoprefixer-rails (6.3.6)
       execjs
     awesome_print (1.6.1)
-    babel-source (5.8.35)
-    babel-transpiler (0.7.0)
-      babel-source (>= 4.0, < 6)
-      execjs (~> 2.0)
     bourbon (5.0.0.beta.5)
       sass (~> 3.4)
       thor (~> 0.19)
+    buftok (0.2.0)
     builder (3.2.2)
     bullet (5.0.0)
       activesupport (>= 3.0.0)
@@ -78,10 +77,13 @@ GEM
       delayed_job (>= 3.0, < 5)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    domain_name (0.5.25)
+      unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.0)
     dotenv-rails (2.1.0)
       dotenv (= 2.1.0)
       railties (>= 4.0, < 5.1)
+    equalizer (0.0.10)
     erubis (2.7.0)
     execjs (2.6.0)
     factory_girl (4.5.0)
@@ -89,6 +91,8 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
+    faraday (0.9.2)
+      multipart-post (>= 1.2, < 3)
     flutie (2.0.0)
     formulaic (0.3.0)
       activesupport
@@ -98,25 +102,41 @@ GEM
       activesupport (>= 4.1.0)
     hashdiff (0.3.0)
     high_voltage (3.0.0)
-    honeybadger (2.6.0)
+    http (1.0.2)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 1.0.1)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
+    http-form_data (1.0.1)
+    http_parser.rb (0.6.0)
     i18n (0.7.0)
     jquery-rails (4.1.0)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    json_spec (1.1.4)
+      multi_json (~> 1.0)
+      rspec (>= 2.0, < 4.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
     mime-types (3.0)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    multi_json (1.11.3)
+    multipart-post (2.0.0)
+    naught (1.1.0)
     neat (1.7.4)
       bourbon (>= 4.0)
       sass (>= 3.3)
@@ -141,8 +161,6 @@ GEM
     rack-canonical-host (0.2.1)
       addressable (> 0, < 3)
       rack (>= 1.0.0, < 3)
-    rack-mini-profiler (0.9.9.2)
-      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack-timeout (0.4.2)
@@ -165,6 +183,11 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.4)
+    rails_stdout_logging (0.0.4)
     railties (4.2.6)
       actionpack (= 4.2.6)
       activesupport (= 4.2.6)
@@ -174,6 +197,10 @@ GEM
     recipient_interceptor (0.1.2)
       mail
     refills (0.1.0)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -204,6 +231,7 @@ GEM
     simple_form (3.2.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
+    simple_oauth (0.3.1)
     simplecov (0.11.2)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -216,10 +244,6 @@ GEM
     sprockets (3.6.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-es6 (0.9.0)
-      babel-source (>= 5.8.11)
-      babel-transpiler
-      sprockets (>= 3.0.0)
     sprockets-rails (3.0.4)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
@@ -231,10 +255,24 @@ GEM
     title (0.0.5)
       i18n
       rails (>= 3.1)
+    twitter (5.16.0)
+      addressable (~> 2.3)
+      buftok (~> 0.2.0)
+      equalizer (= 0.0.10)
+      faraday (~> 0.9.0)
+      http (~> 1.0)
+      http_parser.rb (~> 0.6.0)
+      json (~> 1.8)
+      memoizable (~> 0.4.0)
+      naught (~> 1.0)
+      simple_oauth (~> 0.3.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
     uniform_notifier (1.9.0)
     versionist (1.5.0)
       activesupport (>= 3)
@@ -258,11 +296,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (= 0.8.3)
   autoprefixer-rails
   awesome_print
   bourbon (= 5.0.0.beta.5)
   bullet
-  bundler-audit (>= 0.5.0)
+  bundler-audit
   capybara-webkit
   database_cleaner
   delayed_job_active_record
@@ -271,8 +310,8 @@ DEPENDENCIES
   flutie
   formulaic
   high_voltage
-  honeybadger
   jquery-rails
+  json_spec
   launchy
   neat (~> 1.7.0)
   newrelic_rpm (>= 3.9.8)
@@ -283,9 +322,9 @@ DEPENDENCIES
   puma
   quiet_assets
   rack-canonical-host
-  rack-mini-profiler
   rack-timeout
   rails (~> 4.2.0)
+  rails_12factor
   recipient_interceptor
   refills
   rspec-rails (~> 3.4.0)
@@ -295,10 +334,9 @@ DEPENDENCIES
   simplecov
   spring
   spring-commands-rspec
-  sprockets (>= 3.0.0)
-  sprockets-es6
   timecop
   title
+  twitter
   uglifier
   versionist
   warden
